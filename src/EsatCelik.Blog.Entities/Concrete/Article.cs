@@ -6,7 +6,7 @@ using System.Text;
 
 namespace EsatCelik.Blog.Entities.Concrete
 {
-    public class Blog : EntityBase<int>
+    public class Article : EntityBase<int>
     {
         [Display(Name = "Title")]
         [Required(ErrorMessage = "{0} RequiredErrorMessage")]
@@ -29,6 +29,10 @@ namespace EsatCelik.Blog.Entities.Concrete
         public Resource MainPictureResource { get; set; }
 
         public ICollection<Resource> Resources { get; set; }
+
+        public ICollection<Tag> Tags { get; set; }
+        
+        public ICollection<Category> Categories { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
     }

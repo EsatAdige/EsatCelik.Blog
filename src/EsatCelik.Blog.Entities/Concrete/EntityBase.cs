@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+using EsatCelik.Core.Entities;
 
 namespace EsatCelik.Blog.Entities.Concrete
 {
-    public class EntityBase<TIdentity>
+    public class EntityBase<TIdentity> : IEntity
     {
         [Key]
         [DisplayName("Id")]

@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EsatCelik.Blog.DataAccess\EsatCelik.Blog.DataAccess.csproj" />
+    <ProjectReference Include="..\EsatCelik.Blog.Entities\EsatCelik.Blog.Entities.csproj" />
+  </ItemGroup>
+
 </Project>

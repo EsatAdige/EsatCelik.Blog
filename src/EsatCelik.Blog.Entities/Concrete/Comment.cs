@@ -10,8 +10,8 @@ namespace EsatCelik.Blog.Entities.Concrete
 
         public string Message { get; set; }
 
-        public int BlogId { get; set; }
+        public int ArticleId { get; set; }
 
-        public Blog Blog { get; set; }
+        public Article Article { get; set; }
     }
 }
