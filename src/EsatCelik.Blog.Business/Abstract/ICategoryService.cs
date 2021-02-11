@@ -8,14 +8,14 @@ namespace EsatCelik.Blog.Business.Abstract
 {
     public interface ICategoryService
     {
-        Task<Category> GetById(int id);
+        Task<Category> GetByIdAsync(int id);
 
-        Task<ICollection<Category>> GetList(string categoryName = "");
+        Task<ICollection<Category>> GetListAsync(string categoryName = "");
 
-        Task<Category> Update(Category category);
+        Task<Category> UpdateAsync(Category category);
 
-        Task<Category> Add(Category category);
+        Task<Category> AddAsync(Category category);
 
-        Task Delete(int id);
+        Task DeleteAsync(int id);
     }
 }

@@ -6,18 +6,18 @@ namespace EsatCelik.Blog.Business.Abstract
 {
     public interface ICommentService
     {
-        Task<Comment> GetById(int id);
+        Task<Comment> GetByIdAsync(int id);
 
-        Task<ICollection<Comment>> GetList();
+        Task<ICollection<Comment>> GetListAsync();
 
-        Task<ICollection<Comment>> GetListByArticleId(int articleId);
+        Task<ICollection<Comment>> GetListByArticleIdAsync(int articleId);
 
-        Task<ICollection<Comment>> GetListByUserInformationId(int userInformationId);
+        Task<ICollection<Comment>> GetListByUserInformationIdAsync(int userInformationId);
 
-        Task<Comment> Update(Comment comment);
+        Task<Comment> UpdateAsync(Comment comment);
 
-        Task<Comment> Add(Comment comment);
+        Task<Comment> AddAsync(Comment comment);
 
-        Task Delete(int id);
+        Task DeleteAsync(int id);
     }
 }

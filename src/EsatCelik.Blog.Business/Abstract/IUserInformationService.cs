@@ -8,14 +8,14 @@ namespace EsatCelik.Blog.Business.Abstract
 {
     public interface IUserInformationService
     {
-        Task<UserInformation> GetById(int id);
+        Task<UserInformation> GetByIdAsync(int id);
 
-        Task<ICollection<UserInformation>> GetList();
+        Task<ICollection<UserInformation>> GetListAsync();
 
-        Task<UserInformation> Update(UserInformation userInformation);
+        Task<UserInformation> UpdateAsync(UserInformation userInformation);
 
-        Task<UserInformation> Add(UserInformation userInformation);
+        Task<UserInformation> AddAsync(UserInformation userInformation);
 
-        Task Delete(int id);
+        Task DeleteAsync(int id);
     }
 }

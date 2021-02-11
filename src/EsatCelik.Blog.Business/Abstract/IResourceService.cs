@@ -8,14 +8,14 @@ namespace EsatCelik.Blog.Business.Abstract
 {
     public interface IResourceService
     {
-        Task<Resource> GetById(int id);
+        Task<Resource> GetByIdAsync(int id);
 
-        Task<ICollection<Resource>> GetList(string name = "");
+        Task<ICollection<Resource>> GetListAsync(string name = "");
 
-        Task<Resource> Update(Resource comment);
+        Task<Resource> UpdateAsync(Resource comment);
 
-        Task<Resource> Add(Resource comment);
+        Task<Resource> AddAsync(Resource comment);
 
-        Task Delete(int id);
+        Task DeleteAsync(int id);
     }
 }

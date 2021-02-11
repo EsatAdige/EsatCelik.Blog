@@ -18,12 +18,12 @@ namespace EsatCelik.Blog.Business.Concrete
             _articleDal = articleDal;
         }
 
-        public async Task<Article> GetById(int id)
+        public async Task<Article> GetByIdAsync(int id)
         {
             return await _articleDal.GetAsync(x => x.Id == id);
         }
 
-        public async Task<ICollection<Article>> GetList(string title = "", string content = "")
+        public async Task<ICollection<Article>> GetListAsync(string title = "", string content = "")
         {
             List<Expression<Func<Article, bool>>> filters = new List<Expression<Func<Article, bool>>>();
             
@@ -36,7 +36,7 @@ namespace EsatCelik.Blog.Business.Concrete
             return await _articleDal.GetListAsync(filters, x => x.OrderByDescending(x => x.InsertDate));
         }
 
-        public async Task<ICollection<Article>> GetListByCategoryId(int categoryId)
+        public async Task<ICollection<Article>> GetListByCategoryIdAsync(int categoryId)
         {
             List<Expression<Func<Article, bool>>> filters = new List<Expression<Func<Article, bool>>>();
             
@@ -45,7 +45,7 @@ namespace EsatCelik.Blog.Business.Concrete
             return await _articleDal.GetListAsync(filters, x => x.OrderByDescending(x => x.InsertDate));
         }
 
-        public async Task<Article> Update(Article article)
+        public async Task<Article> UpdateAsync(Article article)
         {
             var newArticle = await _articleDal.UpdateAsync(article);
             await _articleDal.CommitAsync();
@@ -53,7 +53,7 @@ namespace EsatCelik.Blog.Business.Concrete
             return newArticle;
         }
 
-        public async Task<Article> Add(Article article)
+        public async Task<Article> AddAsync(Article article)
         {
             var newArticle = await _articleDal.AddAsync(article);
             await _articleDal.CommitAsync();
@@ -61,7 +61,7 @@ namespace EsatCelik.Blog.Business.Concrete
             return newArticle;
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteAsync(int id)
         {
             var article = await _articleDal.GetAsync(x => x.Id == id);
 

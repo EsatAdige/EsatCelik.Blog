@@ -18,12 +18,12 @@ namespace EsatCelik.Blog.Business.Concrete
             _tagDal = tagDal;
         }
 
-        public async Task<Tag> GetById(int id)
+        public async Task<Tag> GetByIdAsync(int id)
         {
             return await _tagDal.GetAsync(x => x.Id == id);
         }
 
-        public async Task<ICollection<Tag>> GetList(string name = "")
+        public async Task<ICollection<Tag>> GetListAsync(string name = "")
         {
             List<Expression<Func<Tag, bool>>> filters = new List<Expression<Func<Tag, bool>>>();
 
@@ -34,7 +34,7 @@ namespace EsatCelik.Blog.Business.Concrete
             return await _tagDal.GetListAsync(filters, x => x.OrderByDescending(x => x.InsertDate));
         }
 
-        public async Task<Tag> Update(Tag tag)
+        public async Task<Tag> UpdateAsync(Tag tag)
         {
             var newTag = await _tagDal.UpdateAsync(tag);
             await _tagDal.CommitAsync();
@@ -42,7 +42,7 @@ namespace EsatCelik.Blog.Business.Concrete
             return newTag;
         }
 
-        public async Task<Tag> Add(Tag tag)
+        public async Task<Tag> AddAsync(Tag tag)
         {
             var newTag = await _tagDal.AddAsync(tag);
             await _tagDal.CommitAsync();
@@ -50,7 +50,7 @@ namespace EsatCelik.Blog.Business.Concrete
             return newTag;
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteAsync(int id)
         {
             var tag = await _tagDal.GetAsync(x => x.Id == id);
 

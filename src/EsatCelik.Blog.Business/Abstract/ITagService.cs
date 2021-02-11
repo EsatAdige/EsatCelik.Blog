@@ -8,14 +8,14 @@ namespace EsatCelik.Blog.Business.Abstract
 {
     public interface ITagService
     {
-        Task<Tag> GetById(int id);
+        Task<Tag> GetByIdAsync(int id);
 
-        Task<ICollection<Tag>> GetList(string name = "");
+        Task<ICollection<Tag>> GetListAsync(string name = "");
 
-        Task<Tag> Update(Tag tag);
+        Task<Tag> UpdateAsync(Tag tag);
 
-        Task<Tag> Add(Tag tag);
+        Task<Tag> AddAsync(Tag tag);
 
-        Task Delete(int id);
+        Task DeleteAsync(int id);
     }
 }

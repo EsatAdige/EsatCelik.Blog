@@ -18,17 +18,17 @@ namespace EsatCelik.Blog.Business.Concrete
             _commentDal = commentDal;
         }
 
-        public async Task<Comment> GetById(int id)
+        public async Task<Comment> GetByIdAsync(int id)
         {
             return await _commentDal.GetAsync(x => x.Id == id);
         }
 
-        public async Task<ICollection<Comment>> GetList()
+        public async Task<ICollection<Comment>> GetListAsync()
         {
             return await _commentDal.GetListAsync(null, x => x.OrderByDescending(x => x.InsertDate));
         }
 
-        public async Task<ICollection<Comment>> GetListByArticleId(int articleId)
+        public async Task<ICollection<Comment>> GetListByArticleIdAsync(int articleId)
         {
             List<Expression<Func<Comment, bool>>> filters = new List<Expression<Func<Comment, bool>>>();
 
@@ -37,7 +37,7 @@ namespace EsatCelik.Blog.Business.Concrete
             return await _commentDal.GetListAsync(filters, x => x.OrderByDescending(x => x.InsertDate));
         }
 
-        public async Task<ICollection<Comment>> GetListByUserInformationId(int userInformationId)
+        public async Task<ICollection<Comment>> GetListByUserInformationIdAsync(int userInformationId)
         {
             List<Expression<Func<Comment, bool>>> filters = new List<Expression<Func<Comment, bool>>>();
 
@@ -46,7 +46,7 @@ namespace EsatCelik.Blog.Business.Concrete
             return await _commentDal.GetListAsync(filters, x => x.OrderByDescending(x => x.InsertDate));
         }
 
-        public async Task<Comment> Update(Comment comment)
+        public async Task<Comment> UpdateAsync(Comment comment)
         {
             var newComment = await _commentDal.UpdateAsync(comment);
             await _commentDal.CommitAsync();
@@ -54,7 +54,7 @@ namespace EsatCelik.Blog.Business.Concrete
             return newComment;
         }
 
-        public async Task<Comment> Add(Comment comment)
+        public async Task<Comment> AddAsync(Comment comment)
         {
             var newComment = await _commentDal.AddAsync(comment);
             await _commentDal.CommitAsync();
@@ -62,7 +62,7 @@ namespace EsatCelik.Blog.Business.Concrete
             return newComment;
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteAsync(int id)
         {
             var comment = await _commentDal.GetAsync(x => x.Id == id);
 

@@ -18,7 +18,7 @@ namespace EsatCelik.Blog.Business.Concrete
             _categoryDal = categoryDal;
         }
 
-        public async Task<Category> Add(Category category)
+        public async Task<Category> AddAsync(Category category)
         {
             var newCategory = await _categoryDal.AddAsync(category);
             await _categoryDal.CommitAsync();
@@ -26,7 +26,7 @@ namespace EsatCelik.Blog.Business.Concrete
             return newCategory;
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteAsync(int id)
         {
             var category = await _categoryDal.GetAsync(x => x.Id == id);
 
@@ -34,12 +34,12 @@ namespace EsatCelik.Blog.Business.Concrete
             await _categoryDal.CommitAsync();
         }
 
-        public async Task<Category> GetById(int id)
+        public async Task<Category> GetByIdAsync(int id)
         {
             return await _categoryDal.GetAsync(x => x.Id == id);
         }
 
-        public async Task<ICollection<Category>> GetList(string categoryName = "")
+        public async Task<ICollection<Category>> GetListAsync(string categoryName = "")
         {
             List<Expression<Func<Category, bool>>> filters = new List<Expression<Func<Category, bool>>>();
 
@@ -50,7 +50,7 @@ namespace EsatCelik.Blog.Business.Concrete
             return await _categoryDal.GetListAsync(filters, x => x.OrderByDescending(x => x.InsertDate));
         }
 
-        public async Task<Category> Update(Category category)
+        public async Task<Category> UpdateAsync(Category category)
         {
             var newCategory = await _categoryDal.UpdateAsync(category);
             await _categoryDal.CommitAsync();

@@ -16,17 +16,17 @@ namespace EsatCelik.Blog.Business.Concrete
             _userInformationDal = userInformationDal;
         }
 
-        public async Task<UserInformation> GetById(int id)
+        public async Task<UserInformation> GetByIdAsync(int id)
         {
             return await _userInformationDal.GetAsync(x => x.Id == id);
         }
 
-        public async Task<ICollection<UserInformation>> GetList()
+        public async Task<ICollection<UserInformation>> GetListAsync()
         {
             return await _userInformationDal.GetListAsync(null, x => x.OrderByDescending(o => o.InsertDate));
         }
 
-        public async Task<UserInformation> Update(UserInformation userInformation)
+        public async Task<UserInformation> UpdateAsync(UserInformation userInformation)
         {
             var newUserInformation = await _userInformationDal.UpdateAsync(userInformation);
             await _userInformationDal.CommitAsync();
@@ -34,7 +34,7 @@ namespace EsatCelik.Blog.Business.Concrete
             return newUserInformation;
         }
 
-        public async Task<UserInformation> Add(UserInformation userInformation)
+        public async Task<UserInformation> AddAsync(UserInformation userInformation)
         {
             var newUserInformation = await _userInformationDal.AddAsync(userInformation);
             await _userInformationDal.CommitAsync();
@@ -42,7 +42,7 @@ namespace EsatCelik.Blog.Business.Concrete
             return newUserInformation;
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteAsync(int id)
         {
             var userInformation = await _userInformationDal.GetAsync(x => x.Id == id);
 
