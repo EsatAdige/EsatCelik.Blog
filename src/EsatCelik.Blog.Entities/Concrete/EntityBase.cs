@@ -15,8 +15,5 @@ namespace EsatCelik.Blog.Entities.Concrete
         public DateTime InsertDate { get; set; } = DateTime.Now;
 
         public int InsertedBy { get; set; }
-
-        [ForeignKey("InsertedBy")]
-        public UserInformation InsertedUserInformation { get; set; }
     }
 }
