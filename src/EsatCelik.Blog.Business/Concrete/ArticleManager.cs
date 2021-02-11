@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using EsatCelik.Blog.Business.Abstract;
 using EsatCelik.Blog.DataAccess.Abstract;
@@ -21,10 +20,10 @@ namespace EsatCelik.Blog.Business.Concrete
 
         public async Task<Article> GetById(int id)
         {
-            return await _articleDal.GetAsync(x => x.Id == id, "Resources,Comments,Categories,Tags,InsertedUserInformation");
+            return await _articleDal.GetAsync(x => x.Id == id);
         }
 
-        public async Task<ICollection<Article>> GetList(string title, string content)
+        public async Task<ICollection<Article>> GetList(string title = "", string content = "")
         {
             List<Expression<Func<Article, bool>>> filters = new List<Expression<Func<Article, bool>>>();
             
@@ -34,7 +33,7 @@ namespace EsatCelik.Blog.Business.Concrete
                 filters.Add(article => article.Content.Contains(content));
 
 
-            return await _articleDal.GetListAsync(filters, x => x.OrderByDescending(x => x.InsertDate), "Resources,Comments,Categories,Tags,InsertedUserInformation");
+            return await _articleDal.GetListAsync(filters, x => x.OrderByDescending(x => x.InsertDate));
         }
 
         public async Task<ICollection<Article>> GetListByCategoryId(int categoryId)
@@ -43,22 +42,31 @@ namespace EsatCelik.Blog.Business.Concrete
             
             filters.Add(article => article.Categories.Where(category => category.Id == categoryId).Count() > 0);
 
-            return await _articleDal.GetListAsync(filters, x => x.OrderByDescending(x => x.InsertDate), "Resources,Comments,Categories,Tags,InsertedUserInformation");
+            return await _articleDal.GetListAsync(filters, x => x.OrderByDescending(x => x.InsertDate));
         }
 
-        public Task Update(Article article)
+        public async Task<Article> Update(Article article)
         {
-            throw new NotImplementedException();
+            var newArticle = await _articleDal.UpdateAsync(article);
+            await _articleDal.CommitAsync();
+
+            return newArticle;
         }
 
-        public Task Save(Article article)
+        public async Task<Article> Add(Article article)
         {
-            throw new NotImplementedException();
+            var newArticle = await _articleDal.AddAsync(article);
+            await _articleDal.CommitAsync();
+
+            return newArticle;
         }
 
-        public Task Delete(Article article)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            var article = await _articleDal.GetAsync(x => x.Id == id);
+
+            await _articleDal.DeleteAsync(article);
+            await _articleDal.CommitAsync();
         }
     }
 }

@@ -11,14 +11,14 @@ namespace EsatCelik.Blog.Business.Abstract
     {
         Task<Article> GetById(int id);
 
-        Task<ICollection<Article>> GetList(string title, string content);
+        Task<ICollection<Article>> GetList(string title = "", string content = "");
 
         Task<ICollection<Article>> GetListByCategoryId(int categoryId);
 
-        Task Update(Article article);
+        Task<Article> Update(Article article);
 
-        Task Save(Article article);
+        Task<Article> Add(Article article);
 
-        Task Delete(Article article);
+        Task Delete(int id);
     }
 }
