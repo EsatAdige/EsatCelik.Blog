@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using EsatCelik.Blog.Api.Dtos;
+using EsatCelik.Blog.Api.Models;
 using EsatCelik.Blog.Business.Abstract;
 using EsatCelik.Blog.Entities.Concrete;
 
@@ -14,26 +15,25 @@ namespace EsatCelik.Blog.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ArticlesController : ControllerBase
+    public class CategoriesController : ControllerBase
     {
-        private readonly IArticleService _articleService;
+        private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
 
-        public ArticlesController(IArticleService articleService, IMapper mapper)
+        public CategoriesController(ICategoryService categoryService, IMapper mapper)
         {
-            _articleService = articleService;
+            _categoryService = categoryService;
             _mapper = mapper;
         }
 
-        // GET: api/<ArticlesController>
+        // GET: api/<CategoriesController>
         [HttpGet]
-        public async Task<IActionResult> Get(string title = "", string content = "")
+        public async Task<IActionResult> Get(string categoryName = "")
         {
             try
             {
-                var articles = await _articleService.GetListAsync(title, content);
-                var mappedData = _mapper.Map<ICollection<ArticleForListDto>>(articles);
-                return Ok(mappedData);
+                var categories = await _categoryService.GetListAsync(categoryName);
+                return Ok(categories);
             }
             catch (Exception e)
             {
@@ -41,31 +41,14 @@ namespace EsatCelik.Blog.Api.Controllers
             }
         }
 
-        // GET api/<ArticlesController>/5
-        [HttpGet("GetListByCategoryId")]
-        public async Task<IActionResult> GetListByCategoryId(int categoryId)
-        {
-            try
-            {
-                var articles = await _articleService.GetListByCategoryIdAsync(categoryId);
-                var mappedData = _mapper.Map<ICollection<ArticleForListDto>>(articles);
-                return Ok(mappedData);
-            }
-            catch (Exception e)
-            {
-                return BadRequest();
-            }
-        }
-
-        // GET api/<ArticlesController>/5
+        // GET api/<CategoriesController>/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             try
             {
-                var article = await _articleService.GetByIdAsync(id);
-                var mappedData = _mapper.Map<ArticleForListDto>(article);
-                return Ok(mappedData);
+                var category = await _categoryService.GetByIdAsync(id);
+                return Ok(category);
             }
             catch (Exception e)
             {
@@ -73,9 +56,9 @@ namespace EsatCelik.Blog.Api.Controllers
             }
         }
 
-        // POST api/<ArticlesController>
+        // POST api/<CategoriesController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Article article)
+        public async Task<IActionResult> Post([FromBody] CategorySaveModel categorySaveModel)
         {
             try
             {
@@ -84,7 +67,9 @@ namespace EsatCelik.Blog.Api.Controllers
                     return ValidationProblem();
                 }
 
-                return Ok(await _articleService.AddAsync(article));
+                Category category = new Category(categorySaveModel.Id, categorySaveModel.Name);
+
+                return Ok(await _categoryService.AddAsync(category));
             }
             catch (Exception e)
             {
@@ -92,9 +77,9 @@ namespace EsatCelik.Blog.Api.Controllers
             }
         }
 
-        // PUT api/<ArticlesController>/5
+        // PUT api/<CategoriesController>/5
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] Article article)
+        public async Task<IActionResult> Put([FromBody] CategorySaveModel categorySaveModel)
         {
             try
             {
@@ -103,7 +88,9 @@ namespace EsatCelik.Blog.Api.Controllers
                     return ValidationProblem();
                 }
 
-                return Ok(await _articleService.UpdateAsync(article));
+                Category category = new Category(categorySaveModel.Id, categorySaveModel.Name);
+
+                return Ok(await _categoryService.UpdateAsync(category));
             }
             catch (Exception e)
             {
@@ -111,13 +98,13 @@ namespace EsatCelik.Blog.Api.Controllers
             }
         }
 
-        // DELETE api/<ArticlesController>/5
+        // DELETE api/<CategoriesController>/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                await _articleService.DeleteAsync(id);
+                await _categoryService.DeleteAsync(id);
 
                 return Ok();
             }

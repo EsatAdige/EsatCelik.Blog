@@ -9,5 +9,7 @@ namespace EsatCelik.Blog.Entities.Concrete
     {
         [Display(Name = "Tag Name")]
         public string TagName { get; set; }
+
+        public ICollection<ArticleTag> ArticleTags { get; set; }
     }
 }

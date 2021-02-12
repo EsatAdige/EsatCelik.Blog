@@ -11,6 +11,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EsatCelik.Blog.Business.Abstract;
+using EsatCelik.Blog.Business.Concrete;
+using EsatCelik.Blog.DataAccess.Abstract;
+using EsatCelik.Blog.DataAccess.Concrete.EntityFramework;
 
 namespace EsatCelik.Blog.Api
 {
@@ -26,8 +30,33 @@ namespace EsatCelik.Blog.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers().AddNewtonsoftJson(options =>
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );
 
-            services.AddControllers();
+            services.AddAutoMapper(typeof(Startup));
+
+            #region DI for Services and Managers
+            services.AddScoped<IArticleService, ArticleManager>();
+            services.AddScoped<IArticleDal, EfArticleDal>();
+
+            services.AddScoped<ICategoryService, CategoryManager>();
+            services.AddScoped<ICategoryDal, EfCategoryDal>();
+
+            services.AddScoped<ICommentService, CommentManager>();
+            services.AddScoped<ICommentDal, EfCommentDal>();
+
+            services.AddScoped<IResourceService, ResourceManager>();
+            services.AddScoped<IResourceDal, EfResourceDal>();
+
+            services.AddScoped<ITagService, TagManager>();
+            services.AddScoped<ITagDal, EfTagDal>();
+
+            services.AddScoped<IUserInformationService, UserInformationManager>();
+            services.AddScoped<IUserInformationDal, EfUserInformationDal>();
+            #endregion
+            services.AddDbContext<BlogContext>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EsatCelik.Blog.Api", Version = "v1" });

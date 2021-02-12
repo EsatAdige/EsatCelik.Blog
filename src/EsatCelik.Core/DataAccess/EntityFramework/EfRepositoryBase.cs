@@ -25,9 +25,8 @@ namespace EsatCelik.Core.DataAccess.EntityFramework
         {
             try
             {
-                var addedEntity = _context.Entry(entity);
-                addedEntity.State = EntityState.Added;
-                return entity;
+                var newEntity = await _context.Set<TEntity>().AddAsync(entity);
+                return newEntity.Entity;
             }
             catch (Exception e)
             {
@@ -53,8 +52,7 @@ namespace EsatCelik.Core.DataAccess.EntityFramework
         {
             try
             {
-                var deleteEntity = _context.Entry(entity);
-                deleteEntity.State = EntityState.Deleted;
+                var deleteEntity = _context.Set<TEntity>().Remove(entity);
             }
             catch (Exception ex)
             {
@@ -89,29 +87,37 @@ namespace EsatCelik.Core.DataAccess.EntityFramework
 
         public async Task<ICollection<TEntity>> GetListAsync(List<Expression<Func<TEntity, bool>>> filters = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
         {
-            IQueryable<TEntity> query = _dbSet;
-
-            if (filters != null)
+            try
             {
-                foreach (var expression in filters)
+                IQueryable<TEntity> query = _dbSet;
+
+                if (filters != null)
                 {
-                    query = query.Where(expression);
+                    foreach (var expression in filters)
+                    {
+                        query = query.Where(expression);
+                    }
+                }
+
+                foreach (var includeProperty in includeProperties.Split
+                    (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProperty);
+                }
+
+                if (orderBy != null)
+                {
+                    return await orderBy(query).ToListAsync();
+                }
+                else
+                {
+                    return await query.ToListAsync();
                 }
             }
+            catch (Exception ex)
+            {
 
-            foreach (var includeProperty in includeProperties.Split
-                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-            {
-                query = query.Include(includeProperty);
-            }
-
-            if (orderBy != null)
-            {
-                return await orderBy(query).ToListAsync();
-            }
-            else
-            {
-                return await query.ToListAsync();
+                throw;
             }
         }
 
@@ -119,9 +125,8 @@ namespace EsatCelik.Core.DataAccess.EntityFramework
         {
             try
             {
-                var updatetedEntity = _context.Entry(entity);
-                updatetedEntity.State = EntityState.Modified;
-                return entity;
+                var newEntity = _context.Set<TEntity>().Update(entity);
+                return newEntity.Entity;
             }
             catch (Exception e)
             {

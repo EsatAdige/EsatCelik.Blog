@@ -19,6 +19,6 @@ namespace EsatCelik.Blog.Entities.Concrete
         public string Thumbnail { get; set; }
 
         [Display(Name = "Content Type")]
-        public string ContentType { get; set; } 
+        public string ContentType { get; set; }
     }
 }

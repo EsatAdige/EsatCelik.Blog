@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EsatCelik.Blog.DataAccess.Migrations
 {
     [DbContext(typeof(BlogContext))]
-    [Migration("20210211203123_202102111124")]
-    partial class _202102111124
+    [Migration("20210212183324_202102122133")]
+    partial class _202102122133
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -60,15 +60,60 @@ namespace EsatCelik.Blog.DataAccess.Migrations
                     b.ToTable("Articles");
                 });
 
+            modelBuilder.Entity("EsatCelik.Blog.Entities.Concrete.ArticleCategory", b =>
+                {
+                    b.Property<int?>("ArticleId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("InsertDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("InsertedBy")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArticleId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("ArticleCategories");
+                });
+
+            modelBuilder.Entity("EsatCelik.Blog.Entities.Concrete.ArticleTag", b =>
+                {
+                    b.Property<int?>("ArticleId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TagId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("InsertDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("InsertedBy")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArticleId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("ArticleTags");
+                });
+
             modelBuilder.Entity("EsatCelik.Blog.Entities.Concrete.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ArticleId")
-                        .HasColumnType("int");
 
                     b.Property<string>("CategoryName")
                         .HasColumnType("nvarchar(max)");
@@ -81,9 +126,30 @@ namespace EsatCelik.Blog.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArticleId");
-
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryName = "Game",
+                            InsertDate = new DateTime(2021, 2, 12, 21, 33, 24, 346, DateTimeKind.Local).AddTicks(3914),
+                            InsertedBy = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryName = "Travel",
+                            InsertDate = new DateTime(2021, 2, 12, 21, 33, 24, 346, DateTimeKind.Local).AddTicks(4397),
+                            InsertedBy = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryName = "Photography",
+                            InsertDate = new DateTime(2021, 2, 12, 21, 33, 24, 346, DateTimeKind.Local).AddTicks(4400),
+                            InsertedBy = 0
+                        });
                 });
 
             modelBuilder.Entity("EsatCelik.Blog.Entities.Concrete.Comment", b =>
@@ -122,9 +188,6 @@ namespace EsatCelik.Blog.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ArticleId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ContentType")
                         .HasColumnType("nvarchar(max)");
 
@@ -147,8 +210,6 @@ namespace EsatCelik.Blog.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArticleId");
-
                     b.ToTable("Resources");
                 });
 
@@ -158,9 +219,6 @@ namespace EsatCelik.Blog.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ArticleId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("InsertDate")
                         .HasColumnType("datetime2");
@@ -172,8 +230,6 @@ namespace EsatCelik.Blog.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ArticleId");
 
                     b.ToTable("Tags");
                 });
@@ -213,11 +269,42 @@ namespace EsatCelik.Blog.DataAccess.Migrations
                     b.Navigation("MainPictureResource");
                 });
 
-            modelBuilder.Entity("EsatCelik.Blog.Entities.Concrete.Category", b =>
+            modelBuilder.Entity("EsatCelik.Blog.Entities.Concrete.ArticleCategory", b =>
                 {
-                    b.HasOne("EsatCelik.Blog.Entities.Concrete.Article", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("ArticleId");
+                    b.HasOne("EsatCelik.Blog.Entities.Concrete.Article", "Article")
+                        .WithMany("ArticleCategories")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("EsatCelik.Blog.Entities.Concrete.Category", "Category")
+                        .WithMany("ArticleCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Article");
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("EsatCelik.Blog.Entities.Concrete.ArticleTag", b =>
+                {
+                    b.HasOne("EsatCelik.Blog.Entities.Concrete.Article", "Article")
+                        .WithMany("ArticleTags")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("EsatCelik.Blog.Entities.Concrete.Tag", "Tag")
+                        .WithMany("ArticleTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Article");
+
+                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("EsatCelik.Blog.Entities.Concrete.Comment", b =>
@@ -231,29 +318,23 @@ namespace EsatCelik.Blog.DataAccess.Migrations
                     b.Navigation("Article");
                 });
 
-            modelBuilder.Entity("EsatCelik.Blog.Entities.Concrete.Resource", b =>
+            modelBuilder.Entity("EsatCelik.Blog.Entities.Concrete.Article", b =>
                 {
-                    b.HasOne("EsatCelik.Blog.Entities.Concrete.Article", null)
-                        .WithMany("Resources")
-                        .HasForeignKey("ArticleId");
+                    b.Navigation("ArticleCategories");
+
+                    b.Navigation("ArticleTags");
+
+                    b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("EsatCelik.Blog.Entities.Concrete.Category", b =>
+                {
+                    b.Navigation("ArticleCategories");
                 });
 
             modelBuilder.Entity("EsatCelik.Blog.Entities.Concrete.Tag", b =>
                 {
-                    b.HasOne("EsatCelik.Blog.Entities.Concrete.Article", null)
-                        .WithMany("Tags")
-                        .HasForeignKey("ArticleId");
-                });
-
-            modelBuilder.Entity("EsatCelik.Blog.Entities.Concrete.Article", b =>
-                {
-                    b.Navigation("Categories");
-
-                    b.Navigation("Comments");
-
-                    b.Navigation("Resources");
-
-                    b.Navigation("Tags");
+                    b.Navigation("ArticleTags");
                 });
 #pragma warning restore 612, 618
         }

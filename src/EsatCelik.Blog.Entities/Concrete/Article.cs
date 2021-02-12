@@ -21,18 +21,19 @@ namespace EsatCelik.Blog.Entities.Concrete
         [Display(Name = "Content")]
         public string Content { get; set; }
 
+        [Display(Name = "Cover Photo")]
+        [Required(ErrorMessage = "{0} alanı zorunludur")]
         public int MainPictureResourceId { get; set; }
 
         public bool AllowComment { get; set; } = true;
 
+        [Display(Name = "Cover Photo")]
         [ForeignKey("MainPictureResourceId")]
         public Resource MainPictureResource { get; set; }
 
-        public ICollection<Resource> Resources { get; set; }
-
-        public ICollection<Tag> Tags { get; set; }
+        public ICollection<ArticleTag> ArticleTags { get; set; }
         
-        public ICollection<Category> Categories { get; set; }
+        public ICollection<ArticleCategory> ArticleCategories { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
     }
