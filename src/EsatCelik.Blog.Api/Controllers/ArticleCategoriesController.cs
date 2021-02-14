@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using EsatCelik.Blog.Api.Models;
 using EsatCelik.Blog.Business.Abstract;
 using EsatCelik.Blog.Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,6 +24,7 @@ namespace EsatCelik.Blog.Api.Controllers
         }
 
         // POST api/<ArticleCategoriesController>
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] ArticleCategorySaveModel articleCategorySaveModel)
         {
@@ -39,6 +41,7 @@ namespace EsatCelik.Blog.Api.Controllers
         }
 
         // DELETE api/<ArticleCategoriesController>/5
+        [Authorize]
         [HttpDelete("{articleId}/{categoryId}")]
         public async Task<IActionResult> Delete(int articleId, int categoryId)
         {

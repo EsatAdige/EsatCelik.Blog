@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using EsatCelik.Blog.Api.Models;
 using EsatCelik.Blog.Business.Abstract;
 using EsatCelik.Blog.Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,6 +25,7 @@ namespace EsatCelik.Blog.Api.Controllers
 
         // GET: api/<CommentsController>
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Get()
         {
             try
@@ -38,6 +40,7 @@ namespace EsatCelik.Blog.Api.Controllers
         }
 
         // GET api/<CommentsController>/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -53,6 +56,7 @@ namespace EsatCelik.Blog.Api.Controllers
         }
 
         // GET api/<CommentsController>/5
+        [Authorize]
         [HttpGet("GetByArticleId/{id}")]
         public async Task<IActionResult> GetByArticleId(int id)
         {
@@ -68,6 +72,7 @@ namespace EsatCelik.Blog.Api.Controllers
         }
 
         // POST api/<CommentsController>
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CommentSaveModel commentSaveModel)
         {
@@ -89,6 +94,7 @@ namespace EsatCelik.Blog.Api.Controllers
         }
 
         // PUT api/<CommentsController>/5
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] CommentSaveModel commentSaveModel)
         {
@@ -110,6 +116,7 @@ namespace EsatCelik.Blog.Api.Controllers
         }
 
         // DELETE api/<CommentsController>/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

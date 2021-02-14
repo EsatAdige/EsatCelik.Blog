@@ -8,6 +8,7 @@ using EsatCelik.Blog.Api.Dtos;
 using EsatCelik.Blog.Api.Models;
 using EsatCelik.Blog.Business.Abstract;
 using EsatCelik.Blog.Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,6 +28,7 @@ namespace EsatCelik.Blog.Api.Controllers
         }
 
         // GET: api/<ArticlesController>
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get(string title = "", string content = "")
         {
@@ -43,6 +45,7 @@ namespace EsatCelik.Blog.Api.Controllers
         }
 
         // GET api/<ArticlesController>/5
+        [Authorize]
         [HttpGet("GetListByCategoryId")]
         public async Task<IActionResult> GetListByCategoryId(int categoryId)
         {
@@ -60,6 +63,7 @@ namespace EsatCelik.Blog.Api.Controllers
 
         // GET api/<ArticlesController>/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> Get(int id)
         {
             try
@@ -75,6 +79,7 @@ namespace EsatCelik.Blog.Api.Controllers
         }
 
         // POST api/<ArticlesController>
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] ArticleSaveModel articleSaveModel)
         {
@@ -99,6 +104,7 @@ namespace EsatCelik.Blog.Api.Controllers
         }
 
         // PUT api/<ArticlesController>/5
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] ArticleSaveModel articleSaveModel)
         {
@@ -123,6 +129,7 @@ namespace EsatCelik.Blog.Api.Controllers
         }
 
         // DELETE api/<ArticlesController>/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
