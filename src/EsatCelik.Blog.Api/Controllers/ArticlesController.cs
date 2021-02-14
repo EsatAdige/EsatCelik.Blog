@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using EsatCelik.Blog.Api.Dtos;
+using EsatCelik.Blog.Api.Models;
 using EsatCelik.Blog.Business.Abstract;
 using EsatCelik.Blog.Entities.Concrete;
 
@@ -75,7 +76,7 @@ namespace EsatCelik.Blog.Api.Controllers
 
         // POST api/<ArticlesController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Article article)
+        public async Task<IActionResult> Post([FromBody] ArticleSaveModel articleSaveModel)
         {
             try
             {
@@ -84,7 +85,12 @@ namespace EsatCelik.Blog.Api.Controllers
                     return ValidationProblem();
                 }
 
-                return Ok(await _articleService.AddAsync(article));
+                Article article = new Article(0, articleSaveModel.Title, articleSaveModel.ArticleAddress, articleSaveModel.Content, articleSaveModel.MainPictureResourceId, articleSaveModel.AllowComment, articleSaveModel.MainPictureResource);
+
+                var newArticle = await _articleService.AddAsync(article);
+                var mappedData = _mapper.Map<ArticleForListDto>(newArticle);
+
+                return Ok(mappedData);
             }
             catch (Exception e)
             {
@@ -94,7 +100,7 @@ namespace EsatCelik.Blog.Api.Controllers
 
         // PUT api/<ArticlesController>/5
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] Article article)
+        public async Task<IActionResult> Put([FromBody] ArticleSaveModel articleSaveModel)
         {
             try
             {
@@ -102,8 +108,13 @@ namespace EsatCelik.Blog.Api.Controllers
                 {
                     return ValidationProblem();
                 }
+                
+                Article article = new Article(articleSaveModel.Id, articleSaveModel.Title, articleSaveModel.ArticleAddress, articleSaveModel.Content, articleSaveModel.MainPictureResourceId, articleSaveModel.AllowComment, articleSaveModel.MainPictureResource);
 
-                return Ok(await _articleService.UpdateAsync(article));
+                var newArticle = await _articleService.UpdateAsync(article);
+                var mappedData = _mapper.Map<ArticleForListDto>(newArticle);
+
+                return Ok(mappedData);
             }
             catch (Exception e)
             {

@@ -23,6 +23,8 @@ namespace EsatCelik.Blog.Api.Helpers
                     opt => { opt.MapFrom(src => src.MainPictureResource.Thumbnail); })
                 .ForMember(dest => dest.ResurceContentType,
                     opt => { opt.MapFrom(src => src.MainPictureResource.ContentType); })
+                .ForMember(dest => dest.Comments,
+                    opt => { opt.MapFrom(src => src.Comments); })
                 .ForMember(dest => dest.Categories,
                     opt => { opt.MapFrom(src => src.ArticleCategories.Select(category => category )); });
         }

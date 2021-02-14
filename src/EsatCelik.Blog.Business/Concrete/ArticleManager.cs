@@ -20,7 +20,7 @@ namespace EsatCelik.Blog.Business.Concrete
 
         public async Task<Article> GetByIdAsync(int id)
         {
-            return await _articleDal.GetAsync(x => x.Id == id, "MainPictureResource,Comments,ArticleCategories,ArticleCategories.Category,ArticleTags");
+            return await _articleDal.GetAsync(x => x.Id == id, "MainPictureResource,Comments,ArticleCategories,ArticleCategories.Category");
         }
 
         public async Task<ICollection<Article>> GetListAsync(string title = "", string content = "")
@@ -33,7 +33,7 @@ namespace EsatCelik.Blog.Business.Concrete
                 filters.Add(article => article.Content.Contains(content));
 
 
-            return await _articleDal.GetListAsync(filters, x => x.OrderByDescending(x => x.InsertDate), "MainPictureResource,Comments,ArticleCategories,ArticleCategories.Category,ArticleTags");
+            return await _articleDal.GetListAsync(filters, x => x.OrderByDescending(x => x.InsertDate), "MainPictureResource,Comments,ArticleCategories,ArticleCategories.Category");
         }
 
         public async Task<ICollection<Article>> GetListByCategoryIdAsync(int categoryId)
@@ -42,7 +42,7 @@ namespace EsatCelik.Blog.Business.Concrete
             
             filters.Add(article => article.ArticleCategories.Where(category => category.CategoryId == categoryId).Count() > 0);
 
-            return await _articleDal.GetListAsync(filters, x => x.OrderByDescending(x => x.InsertDate), "MainPictureResource,Comments,ArticleCategories,ArticleCategories.Category,ArticleTags");
+            return await _articleDal.GetListAsync(filters, x => x.OrderByDescending(x => x.InsertDate), "MainPictureResource,Comments,ArticleCategories,ArticleCategories.Category");
         }
 
         public async Task<Article> UpdateAsync(Article article)
@@ -63,15 +63,10 @@ namespace EsatCelik.Blog.Business.Concrete
 
         public async Task DeleteAsync(int id)
         {
-            var article = await _articleDal.GetAsync(x => x.Id == id, "ArticleCategories,ArticleTags");
+            var article = await _articleDal.GetAsync(x => x.Id == id, "ArticleCategories");
             foreach (var articleCategory in article.ArticleCategories)
             {
                 articleCategory.Article = null;
-            }
-
-            foreach (var articleTag in article.ArticleTags)
-            {
-                articleTag.Article = null;
             }
 
             await _articleDal.DeleteAsync(article);

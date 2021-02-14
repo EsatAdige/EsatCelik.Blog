@@ -3,28 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
+using EsatCelik.Blog.Entities.Concrete;
 
-namespace EsatCelik.Blog.Entities.Concrete
+namespace EsatCelik.Blog.Api.Models
 {
-    public class Article : EntityBase<int>
+    public class ArticleSaveModel
     {
-        public Article()
-        {
-            
-        }
-
-        public Article(int id, string title, string articleAddress, string content, int mainPictureResourceId, bool allowComment, Resource resource)
-        {
-            this.Id = id;
-            this.Title = title;
-            this.ArticleAddress = articleAddress;
-            this.Content = content;
-            this.MainPictureResourceId = mainPictureResourceId;
-            this.AllowComment = allowComment;
-            this.MainPictureResource = resource;
-            this.Comments = new List<Comment>();
-        }
+        public int Id { get; set; }
 
         [Display(Name = "Title")]
         [Required(ErrorMessage = "{0} RequiredErrorMessage")]
@@ -48,9 +34,5 @@ namespace EsatCelik.Blog.Entities.Concrete
         [Display(Name = "Cover Photo")]
         [ForeignKey("MainPictureResourceId")]
         public Resource MainPictureResource { get; set; }
-        
-        public ICollection<ArticleCategory> ArticleCategories { get; set; }
-
-        public ICollection<Comment> Comments { get; set; }
     }
 }

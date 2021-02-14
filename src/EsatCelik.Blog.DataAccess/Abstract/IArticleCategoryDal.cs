@@ -3,7 +3,7 @@ using EsatCelik.Core.DataAccess;
 
 namespace EsatCelik.Blog.DataAccess.Abstract
 {
-    public interface ITagDal : IEntityRepository<Tag>
+    public interface IArticleCategoryDal : IEntityRepository<ArticleCategory>
     {
     }
 }

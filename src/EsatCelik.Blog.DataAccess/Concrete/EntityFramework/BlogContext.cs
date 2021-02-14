@@ -18,13 +18,9 @@ namespace EsatCelik.Blog.DataAccess.Concrete.EntityFramework
 
         public DbSet<Resource> Resources { get; set; }
 
-        public DbSet<Tag> Tags { get; set; }
-
         public DbSet<UserInformation> UserInformations { get; set; }
 
         public DbSet<ArticleCategory> ArticleCategories { get; set; }
-
-        public DbSet<ArticleTag> ArticleTags { get; set; }
 
         public BlogContext(IConfiguration configuration)
         {
@@ -55,24 +51,6 @@ namespace EsatCelik.Blog.DataAccess.Concrete.EntityFramework
                 .HasOne<Category>(sc => sc.Category)
                 .WithMany(s => s.ArticleCategories)
                 .HasForeignKey(sc => sc.CategoryId);
-            #endregion
-
-            #region Articles' Tags
-            modelBuilder.Entity<ArticleTag>()       // THIS IS FIRST
-                .HasOne(u => u.Article).WithMany(u => u.ArticleTags).IsRequired().OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<ArticleTag>().HasKey(sc => new { sc.ArticleId, sc.TagId });
-
-            modelBuilder.Entity<ArticleTag>()
-                .HasOne<Article>(sc => sc.Article)
-                .WithMany(s => s.ArticleTags)
-                .HasForeignKey(sc => sc.ArticleId);
-
-
-            modelBuilder.Entity<ArticleTag>()
-                .HasOne<Tag>(sc => sc.Tag)
-                .WithMany(s => s.ArticleTags)
-                .HasForeignKey(sc => sc.TagId);
             #endregion
 
             modelBuilder.Entity<Category>().HasData(GetAllCategories());

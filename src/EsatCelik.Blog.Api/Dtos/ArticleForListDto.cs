@@ -20,7 +20,7 @@ namespace EsatCelik.Blog.Api.Dtos
 
         public bool AllowComment { get; set; } = true;
 
-        #region
+        #region Resource
         public string ResourceId { get; set; }
 
         public string ResourceName { get; set; }
@@ -32,6 +32,8 @@ namespace EsatCelik.Blog.Api.Dtos
         public string ResurceContentType { get; set; }
         #endregion
 
-        public List<CategoryForListDto> Categories { get; set; }
+        public ICollection<CommentForListDto> Comments { get; set; }
+
+        public ICollection<CategoryForListDto> Categories { get; set; }
     }
 }

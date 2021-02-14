@@ -52,6 +52,21 @@ namespace EsatCelik.Blog.Api.Controllers
             }
         }
 
+        // GET api/<CommentsController>/5
+        [HttpGet("GetByArticleId/{id}")]
+        public async Task<IActionResult> GetByArticleId(int id)
+        {
+            try
+            {
+                var comment = await _commentService.GetListByArticleIdAsync(id);
+                return Ok(comment);
+            }
+            catch (Exception e)
+            {
+                return BadRequest();
+            }
+        }
+
         // POST api/<CommentsController>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CommentSaveModel commentSaveModel)
@@ -63,9 +78,9 @@ namespace EsatCelik.Blog.Api.Controllers
                     return ValidationProblem();
                 }
 
-                Comment category = new Comment(commentSaveModel.Id, commentSaveModel.Title, commentSaveModel.Message, commentSaveModel.ArticleId);
+                Comment comment = new Comment(commentSaveModel.Id, commentSaveModel.Title, commentSaveModel.Message, commentSaveModel.ArticleId);
 
-                return Ok(await _commentService.AddAsync(category));
+                return Ok(await _commentService.AddAsync(comment));
             }
             catch (Exception e)
             {
@@ -84,9 +99,9 @@ namespace EsatCelik.Blog.Api.Controllers
                     return ValidationProblem();
                 }
 
-                Comment category = new Comment(commentSaveModel.Id, commentSaveModel.Title, commentSaveModel.Message, commentSaveModel.ArticleId);
+                Comment comment = new Comment(commentSaveModel.Id, commentSaveModel.Title, commentSaveModel.Message, commentSaveModel.ArticleId);
 
-                return Ok(await _commentService.UpdateAsync(category));
+                return Ok(await _commentService.UpdateAsync(comment));
             }
             catch (Exception e)
             {
